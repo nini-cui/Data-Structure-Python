@@ -5,7 +5,6 @@ class Node(object):
         self.data = data
         self.prev = prev
         self.next = next
-
     
     def __repr__(self):
         return str(self.data)
@@ -15,9 +14,9 @@ class DoublyLinkedList(object):
 
     def __init__(self):
         self.llSize = 0
-        self.head = 0
-        self.tail = 0
-        self.travIter = 0
+        self.head = None
+        self.tail = None
+        self.travIter = None
 
 
     def __len__(self):
@@ -29,22 +28,20 @@ class DoublyLinkedList(object):
     
 
     def isEmpty(self):
-        return self.size() == 0 
+        return self.llSize == 0
     
 
     def clear(self):
-
         trav = self.head
         while trav is not None:
-            next = trav.next
             trav.prev = trav.next = None
             trav.data = None
-            trav = next
+            trav = trav.next
 
-        self.llSize = None
         self.head = None
         self.tail = None
         trav = None
+        self.llSize = 0
 
 
     def add(self, elem):
@@ -72,8 +69,8 @@ class DoublyLinkedList(object):
 
     
     def addAt(self, index, data):
-        if index < 0:
-            raise Exception('index should not be negative. The value of index was {}'.format(index))
+        if index < 0 or index > self.llSize:
+            raise Exception('index is not valid, the current index was: {}'.format(index))
         
         if index == 0:
             self.addFirst(data)
@@ -84,12 +81,11 @@ class DoublyLinkedList(object):
             return
         
         temp = self.head
-        for i in range(0, index - 1):
+        for i in range(0, index-1):
             temp = temp.next
 
-        newNode = Node(data, temp, temp.next)
-        temp.next.prev = newNode
-        temp.next = newNode
+        temp.next.prev = Node(data, temp, temp.next)
+        temp.next = Node(data, temp, temp.next)
 
         self.llSize += 1
 
@@ -103,6 +99,7 @@ class DoublyLinkedList(object):
     def peekLast(self):
         if self.isEmpty():
             raise Exception('Empty list')
+        
         return self.tail.data
     
 
@@ -119,9 +116,8 @@ class DoublyLinkedList(object):
         else:
             self.head.prev = None
 
-
         return data
-    
+
 
     def removeLast(self):
         if self.isEmpty():
@@ -137,7 +133,7 @@ class DoublyLinkedList(object):
             self.tail.next = None
 
         return data
-
+    
 
     def __remove__(self, node):
         if node.prev == None:
@@ -148,11 +144,11 @@ class DoublyLinkedList(object):
         node.next.prev = node.prev
         node.prev.next = node.next
 
-        data = node.data
+        data = node.data 
 
         node.data = None
-        node.prev = None
         node.next = None
+        node.prev = None
         node = None
 
         self.llSize -= 1
@@ -161,18 +157,20 @@ class DoublyLinkedList(object):
     
 
     def removeAt(self, index):
+
         if index < 0 or index >= self.llSize:
             raise ValueError("wrong index")
-
+        
         if index < self.llSize / 2:
             i = 0
-            trav = self.head 
+            trav = self.head
             while i != index:
                 i += 1
                 trav = trav.next
         else:
             i = self.llSize - 1
             trav = self.tail
+
             while i != index:
                 i -= 1
                 trav = trav.prev
@@ -181,23 +179,20 @@ class DoublyLinkedList(object):
     
 
     def remove(self, obj):
-        if obj == None:
-            trav = self.head
+        trav = self.head
+        if obj is None:
             while trav is not None:
                 if trav.data is None:
                     self.__remove__(trav)
                     return True
                 trav = trav.next
         else:
-            trav = self.head
             while trav is not None:
-                if obj == trav.data:
-                    self.__remove__(obj)
+                if trav.data == obj:
+                    self.__remove__(trav)
                     return True
-                
-                trav = trav.next
-
-        return False
+                trav = trav.next   
+        return False             
     
 
     def indexOf(self, obj):
@@ -221,7 +216,7 @@ class DoublyLinkedList(object):
     
 
     def contains(self, obj):
-        return self.indexOd(obj) != -1
+        return self.indexOf(obj) != -1
     
 
     def __iter__(self):
@@ -237,19 +232,17 @@ class DoublyLinkedList(object):
         self.travIter = self.travIter.next
 
         return data
-    
+
 
     def __repr__(self):
-        sb = ""
+        st = '[ '
 
-        sb = sb + '[ '
         trav = self.head
         while trav is not None:
-            sb = sb + str(trav.data)
+            st = st + str(trav.data)
             if trav.next is not None:
-                sb = sb + ','
+                st = st + ', '
             trav = trav.next
 
-        sb = sb = ' ]'
-
-        return str(sb)
+        st = st + ' ]'
+        return str(st)
