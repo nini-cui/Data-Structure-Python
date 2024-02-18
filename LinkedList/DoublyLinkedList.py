@@ -1,17 +1,21 @@
 import ctypes
 
 class Node(object):
+    # best case O(1)
+    # average case O(n)
+    # worst case O(n)
+    # find last 
+    # where to return what value
     def __init__(self, data, prev, next):
         self.data = data
         self.prev = prev
         self.next = next
     
-    def __repr__(self):
+    def __repr__(self): 
         return str(self.data)
     
 
 class DoublyLinkedList(object):
-
     def __init__(self):
         self.llSize = 0
         self.head = None
@@ -32,11 +36,12 @@ class DoublyLinkedList(object):
     
 
     def clear(self):
-        trav = self.head
+        trav = self.head # 1, 2, 3
         while trav is not None:
+            next = trav.next
             trav.prev = trav.next = None
             trav.data = None
-            trav = trav.next
+            trav = next
 
         self.head = None
         self.tail = None
@@ -48,7 +53,7 @@ class DoublyLinkedList(object):
         self.addLast(elem)
 
 
-    def addLast(self, elem):
+    def addLast(self, elem): 
         if self.isEmpty():
             self.head = self.tail = Node(elem, None, None)
         else:
@@ -84,8 +89,10 @@ class DoublyLinkedList(object):
         for i in range(0, index-1):
             temp = temp.next
 
-        temp.next.prev = Node(data, temp, temp.next)
-        temp.next = Node(data, temp, temp.next)
+        # want to point to the same object, dont want to use too much memory
+        new_node = Node(data, temp, temp.next)
+        temp.next.prev = new_node
+        temp.next = new_node
 
         self.llSize += 1
 
@@ -108,6 +115,7 @@ class DoublyLinkedList(object):
             raise Exception('Empty list')
         
         data = self.head.data
+        
         self.head = self.head.next
         self.llSize -= 1
 
@@ -215,6 +223,31 @@ class DoublyLinkedList(object):
         return -1
     
 
+    def updateAtIndex(self, index, data):
+        if self.isEmpty():
+            raise Exception('Empty list')
+        
+        if index < 0  or index >= self.llSize:
+            raise ValueError("wrong index")
+        
+        if index < self.llSize / 2:
+            i = 0
+            trav = self.head
+            while i != index:
+                i += 1
+                trav = trav.next
+            trav.data = data
+        else:
+            i = self.llSize
+            trav = self.tail
+            while i != index:
+                i -= 1
+                trav = trav.prev
+            trav.data = data
+
+        return trav
+    
+
     def contains(self, obj):
         return self.indexOf(obj) != -1
     
@@ -235,7 +268,7 @@ class DoublyLinkedList(object):
 
 
     def __repr__(self):
-        st = '[ '
+        st = '['
 
         trav = self.head
         while trav is not None:
@@ -244,5 +277,5 @@ class DoublyLinkedList(object):
                 st = st + ', '
             trav = trav.next
 
-        st = st + ' ]'
+        st = st + ']'
         return str(st)

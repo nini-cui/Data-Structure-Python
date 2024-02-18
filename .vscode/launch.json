@@ -4,13 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        // {
-        //     "name": "Python Debugger: Current File",
-        //     "type": "debugpy",
-        //     "request": "launch",
-        //     "program": "${file}",
-        //     "console": "integratedTerminal"
-        // }
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        }
         // {
         //     "name": "Python Debugger: Current File",
         //     "type": "debugpy",
@@ -18,12 +18,12 @@
         //     "module": "unittest",
         //     "args": ["Test/BinarySearchTreeTest/BinarySearchTreeTest.py"]
         // }
-        {
-            "name": "Python Debugger: Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "module": "unittest",
-            "args": ["Test/LinkedList/DoublyLinkedListTest.py"]
-        }
+        // {
+        //     "name": "Python Debugger: Current File",
+        //     "type": "debugpy",
+        //     "request": "launch",
+        //     "module": "unittest",
+        //     "args": ["Test/LinkedList/DoublyLinkedListTest.py"]
+        // }
     ]
 }

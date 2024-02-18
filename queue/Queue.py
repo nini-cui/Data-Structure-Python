@@ -1,5 +1,12 @@
 from abc import ABC, abstractmethod
 
+# (1) Enqueue()
+# (2) Dequeue()
+# (3) front() peek the first element in the queue
+# (4) Isempty() 
+# Execution will take constant time O(1)
+# Frist in First out
+
 class Queue(ABC):
 
     @abstractmethod
